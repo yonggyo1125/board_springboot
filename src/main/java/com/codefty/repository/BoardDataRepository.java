@@ -2,13 +2,14 @@ package com.codefty.repository;
 
 import java.util.List;
 
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.codefty.entity.BoardData;
 
-public interface BoardDataRepository extends JpaRepository<BoardData, Long> {
+public interface BoardDataRepository extends JpaRepository<BoardData, Long>, QuerydslPredicateExecutor {
 	
 	List<BoardData> findBySubject(String subject);
 	

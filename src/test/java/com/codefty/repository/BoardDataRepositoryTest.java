@@ -12,9 +12,18 @@ import org.springframework.test.context.TestPropertySource;
 import com.codefty.entity.BoardData;
 import com.codefty.repository.BoardDataRepository;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.codefty.entity.QBoardData;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManager;
+
 @SpringBootTest
 @TestPropertySource(locations="classpath:application-test.properties")
 class BoardDataRepositoryTest {
+	
+	@PersistenceContext
+	EntityManager em;
 	
 	@Autowired
 	BoardDataRepository boardDataRepository;
@@ -99,6 +108,23 @@ class BoardDataRepositoryTest {
 	public void findByContentsByNative() {
 		this.createBoardDatas();
 		List<BoardData> boardDatas = boardDataRepository.findByContentsByNative("게시글 본문");
+		for (BoardData boardData : boardDatas) {
+			System.out.println(boardData);
+		}
+	}
+	
+	@Test
+	@DisplayName("Querydsl 조회 테스트1")
+	public void queryDslTest() {
+		this.createBoardDatas();
+		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+		QBoardData qBoardData = QBoardData.boardData;
+		JPAQuery<BoardData> query = queryFactory.selectFrom(qBoardData)
+					.where(qBoardData.subject.eq("게시글 제목2"))
+					.where(qBoardData.contents.like("%" + "본문" + "%"))
+					.orderBy(qBoardData.viewCount.desc());
+		
+		List<BoardData> boardDatas = query.fetch();
 		for (BoardData boardData : boardDatas) {
 			System.out.println(boardData);
 		}
