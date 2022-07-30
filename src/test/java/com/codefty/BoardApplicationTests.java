@@ -1,4 +1,4 @@
-package com.codefty.project1;
+package com.codefty;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
