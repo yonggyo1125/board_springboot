@@ -37,6 +37,7 @@ class BoardDataRepositoryTest {
 			BoardData boardData = new BoardData();
 			boardData.setSubject("게시글 제목" + i);
 			boardData.setContents("게시글 본문" + i);
+			boardData.setViewCount(100 + i);
 			boardData.setRegDt(LocalDateTime.now());
 			boardData.setModDt(LocalDateTime.now());
 			BoardData savedBoardData = boardDataRepository.save(boardData);
@@ -58,6 +59,26 @@ class BoardDataRepositoryTest {
 	public void findBySubjectOrContentsTest() {
 		this.createBoardDatas();
 		List<BoardData> boardDatas = boardDataRepository.findBySubjectOrContents("게시글 제목1", "게시글 본문1");
+		for (BoardData boardData : boardDatas) {
+			System.out.println(boardData);
+		}
+	}
+	
+	@Test
+	@DisplayName("조회수 LessThan 테스트")
+	public void findByViewCountsLessThanTest() {
+		this.createBoardDatas();
+		List<BoardData> boardDatas = boardDataRepository.findByViewCountLessThan(105);
+		for (BoardData boardData : boardDatas) {
+			System.out.println(boardData);
+		}
+	}
+	
+	@Test
+	@DisplayName("가격 내림차순 조회 테스트")
+	public void findByViewCountLessThanOrderByViewCountDesc() {
+		this.createBoardDatas();
+		List<BoardData> boardDatas = boardDataRepository.findByViewCountLessThanOrderByViewCountDesc(110);
 		for (BoardData boardData : boardDatas) {
 			System.out.println(boardData);
 		}

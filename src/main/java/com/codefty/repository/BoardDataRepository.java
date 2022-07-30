@@ -11,4 +11,8 @@ public interface BoardDataRepository extends JpaRepository<BoardData, Long> {
 	List<BoardData> findBySubject(String subject);
 	
 	List<BoardData> findBySubjectOrContents(String subject, String contents);
+	
+	List<BoardData> findByViewCountLessThan(Integer viewCount);
+	
+	List<BoardData> findByViewCountLessThanOrderByViewCountDesc(Integer viewCount);
 }
