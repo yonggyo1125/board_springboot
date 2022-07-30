@@ -83,4 +83,24 @@ class BoardDataRepositoryTest {
 			System.out.println(boardData);
 		}
 	}
+	
+	@Test
+	@DisplayName("@Query를 이용한 게시글 조회 테스트")
+	public void findByContentsTest() {
+		this.createBoardDatas();
+		List<BoardData> boardDatas = boardDataRepository.findByContents("게시글 본문");
+		for (BoardData boardData : boardDatas) {
+			System.out.println(boardData);
+		}
+	}
+	
+	@Test
+	@DisplayName("nativeQuery 속성을 이용한 게시글 조회 테스트")
+	public void findByContentsByNative() {
+		this.createBoardDatas();
+		List<BoardData> boardDatas = boardDataRepository.findByContentsByNative("게시글 본문");
+		for (BoardData boardData : boardDatas) {
+			System.out.println(boardData);
+		}
+	}
 }
