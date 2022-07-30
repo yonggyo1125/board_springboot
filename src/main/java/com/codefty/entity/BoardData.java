@@ -24,6 +24,9 @@ public class BoardData {
 	@Column(nullable=false)
 	private String contents; // 게시글 내용
 	
+	@Column(columnDefinition="int default '0' not null")
+	private int viewCount; // 게시글 조회수 
+	
 	private LocalDateTime regDt; //등록시간
 	private LocalDateTime modDt; // 수정시간
 }
