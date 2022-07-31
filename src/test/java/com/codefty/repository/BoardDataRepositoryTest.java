@@ -18,6 +18,11 @@ import com.codefty.entity.QBoardData;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 
+import com.querydsl.core.BooleanBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 @SpringBootTest
 @TestPropertySource(locations="classpath:application-test.properties")
 class BoardDataRepositoryTest {
@@ -127,6 +132,52 @@ class BoardDataRepositoryTest {
 		List<BoardData> boardDatas = query.fetch();
 		for (BoardData boardData : boardDatas) {
 			System.out.println(boardData);
+		}
+	}
+	
+	public void createBoardDatas2() {
+		for(int i = 1; i <= 5; i++) {
+			BoardData boardData = new BoardData();
+			boardData.setSubject("게시글 제목" + i);
+			boardData.setContents("게시글 본문" + i);
+			boardData.setViewCount(100 + i);
+			boardData.setRegDt(LocalDateTime.now());
+			boardData.setModDt(LocalDateTime.now());
+			boardDataRepository.save(boardData);
+		}
+		
+		for(int i = 6; i <= 10; i++) {
+			BoardData boardData = new BoardData();
+			boardData.setSubject("게시글 제목" + i);
+			boardData.setContents("게시글 본문" + i);
+			boardData.setViewCount(100 + i);
+			boardData.setRegDt(LocalDateTime.now());
+			boardData.setModDt(LocalDateTime.now());
+			boardDataRepository.save(boardData);
+		}
+	}
+	
+	@Test
+	@DisplayName("게시글 Querydsl 조회 테스트 2")
+	public void querydslTest2() {
+		
+		this.createBoardDatas2();
+		
+		BooleanBuilder booleanBuilder = new BooleanBuilder();
+		QBoardData boardData = QBoardData.boardData;
+		String contents = "게시글 본문";
+		int viewCount = 105;
+		
+		booleanBuilder.and(boardData.contents.like("%" + contents + "%"));
+		booleanBuilder.and(boardData.viewCount.gt(viewCount));
+		
+		Pageable pageable = PageRequest.of(0, 5);
+		Page<BoardData> boardDataPagingResult = boardDataRepository.findAll(booleanBuilder, pageable);
+		System.out.println("total elements : " + boardDataPagingResult.getTotalElements());
+		
+		List<BoardData> boardDatas = boardDataPagingResult.getContent();
+		for(BoardData _boardData : boardDatas) {
+			System.out.println(_boardData);
 		}
 	}
 }
