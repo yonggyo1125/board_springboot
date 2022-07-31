@@ -19,7 +19,7 @@ public class BoardData {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id; // 게시글 번호
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="member_id")
 	private Member member;
 	
@@ -34,7 +34,7 @@ public class BoardData {
 	private int viewCount; // 게시글 조회수 
 	
 	@OneToMany(mappedBy="boardData", cascade=CascadeType.ALL,
-				orphanRemoval=true)
+				orphanRemoval=true, fetch=FetchType.LAZY)
 	private List<FileInfo> fileInfos = new ArrayList<>();
 	
 	private LocalDateTime regDt; //등록시간

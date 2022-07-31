@@ -13,7 +13,7 @@ public class FileInfo {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="board_data_id")
 	private BoardData boardData;
 	

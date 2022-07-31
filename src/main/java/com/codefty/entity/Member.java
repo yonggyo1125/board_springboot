@@ -29,11 +29,11 @@ public class Member {
 	@Column(length=13)
 	private String mobile; // 휴대전화번호
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="member_profile_id")
 	private MemberProfile memberProfile;
 	
-	@OneToMany(mappedBy = "member")
+	@OneToMany(mappedBy = "member", fetch=FetchType.LAZY)
 	private List<BoardData> boardDatas = new ArrayList<>();
 	
 	private LocalDateTime regDt; // 가입일

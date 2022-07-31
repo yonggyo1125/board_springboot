@@ -73,14 +73,12 @@ class BoardDataTest2 {
 			boardData.setRegDt(LocalDateTime.now());
 			boardData.setModDt(LocalDateTime.now());
 			
-			
 			for (int i = 1; i <= 3; i++) {
 				FileInfo fileInfo = new FileInfo();
 				fileInfo.setFileName("파일명" + i);
 				fileInfo.setMineType("image/png");
 				fileInfo.setDone(true);
 				fileInfo.setRegDt(LocalDateTime.now());
-				
 				boardData.getFileInfos().add(fileInfo);
 			}
 			
@@ -102,5 +100,53 @@ class BoardDataTest2 {
 		BoardData boardData = this.createBoardData();
 		boardData.getFileInfos().remove(0);
 		em.flush();
+	}
+	
+	public BoardData createBoardData2() {
+		BoardData boardData = new BoardData();
+		boardData.setSubject("게시글 제목");
+		boardData.setContents("게시글 본문");
+		boardData.setViewCount(100);
+		boardData.setRegDt(LocalDateTime.now());
+		boardData.setModDt(LocalDateTime.now());
+		BoardData savedBoardData = boardDataRepository.save(boardData);
+		
+		for (int i = 1; i <= 3; i++) {
+			FileInfo fileInfo = new FileInfo();
+			fileInfo.setFileName("파일명" + i);
+			fileInfo.setMineType("image/png");
+			fileInfo.setDone(true);
+			fileInfo.setRegDt(LocalDateTime.now());
+			fileInfo.setBoardData(savedBoardData);
+			FileInfo savedFileInfo = fileInfoRepository.save(fileInfo);
+			savedBoardData.getFileInfos().add(savedFileInfo);
+		}
+			
+		Member member = new Member();
+		member.setMemId("user1");
+		member.setMemNm("사용자1");
+		member.setMemPw("12345");
+		memberRepository.save(member);
+			
+		savedBoardData.setMember(member);
+		
+		return savedBoardData;
+	}
+	
+	@Test
+	@DisplayName("지연로딩 테스트")
+	public void lazyLoadingTest() {
+
+		BoardData boardData = this.createBoardData2();
+		Long fileInfoId = boardData.getFileInfos().get(0).getId();
+		em.flush();
+		em.clear();
+		
+		FileInfo fileInfo = fileInfoRepository.findById(fileInfoId)
+					.orElseThrow(EntityNotFoundException::new);
+		System.out.println("BoardData class : " + fileInfo.getBoardData().getClass());
+		System.out.println("=======================");
+		fileInfo.getBoardData().getRegDt();
+		System.out.println("=======================");
 	}
 }
