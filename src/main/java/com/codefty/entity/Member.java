@@ -4,14 +4,13 @@ import javax.persistence.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class Member {
+public class Member extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id; // 회원번호
@@ -35,7 +34,4 @@ public class Member {
 	
 	@OneToMany(mappedBy = "member", fetch=FetchType.LAZY)
 	private List<BoardData> boardDatas = new ArrayList<>();
-	
-	private LocalDateTime regDt; // 가입일
-	private LocalDateTime modDt; // 수정일
 }

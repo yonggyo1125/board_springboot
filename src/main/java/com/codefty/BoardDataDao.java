@@ -61,4 +61,6 @@ public class BoardDataDao {
 		
 		return findBoardData;
 	}
+	
+	
 }

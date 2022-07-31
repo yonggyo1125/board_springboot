@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class FileInfo {
+public class FileInfo extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
@@ -23,9 +23,6 @@ public class FileInfo {
 	@Column(nullable=false)
 	private String mineType;
 	
-	@Column(columnDefinition="boolean default 'false'")
-	private boolean isDone;
-	
-	private LocalDateTime regDt;
-	private LocalDateTime modDt;
+	@Column(columnDefinition="tinyint default '0'")
+	private Integer isDone;
 }

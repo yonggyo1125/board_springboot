@@ -50,7 +50,7 @@ class BoardDataTest2 {
 			FileInfo fileInfo = new FileInfo();
 			fileInfo.setFileName("파일명" + i);
 			fileInfo.setMineType("image/png");
-			fileInfo.setDone(true);
+			fileInfo.setIsDone(Integer.valueOf(1));
 			fileInfo.setRegDt(LocalDateTime.now());
 			
 			boardData.getFileInfos().add(fileInfo);
@@ -77,7 +77,7 @@ class BoardDataTest2 {
 				FileInfo fileInfo = new FileInfo();
 				fileInfo.setFileName("파일명" + i);
 				fileInfo.setMineType("image/png");
-				fileInfo.setDone(true);
+				fileInfo.setIsDone(Integer.valueOf(1));
 				fileInfo.setRegDt(LocalDateTime.now());
 				boardData.getFileInfos().add(fileInfo);
 			}
@@ -115,7 +115,7 @@ class BoardDataTest2 {
 			FileInfo fileInfo = new FileInfo();
 			fileInfo.setFileName("파일명" + i);
 			fileInfo.setMineType("image/png");
-			fileInfo.setDone(true);
+			fileInfo.setIsDone(Integer.valueOf(1));
 			fileInfo.setRegDt(LocalDateTime.now());
 			fileInfo.setBoardData(savedBoardData);
 			FileInfo savedFileInfo = fileInfoRepository.save(fileInfo);
