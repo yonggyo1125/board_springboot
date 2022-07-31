@@ -6,6 +6,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Getter
@@ -30,6 +32,10 @@ public class BoardData {
 	
 	@Column(columnDefinition="int default '0' not null")
 	private int viewCount; // 게시글 조회수 
+	
+	@OneToMany(mappedBy="boardData", cascade=CascadeType.ALL,
+				orphanRemoval=true)
+	private List<FileInfo> fileInfos = new ArrayList<>();
 	
 	private LocalDateTime regDt; //등록시간
 	private LocalDateTime modDt; // 수정시간
