@@ -17,6 +17,10 @@ public class BoardData {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id; // 게시글 번호
 	
+	@ManyToOne
+	@JoinColumn(name="member_id")
+	private Member member;
+	
 	@Column(nullable=false, length=50)
 	private String subject; // 게시글 제목
 	
